@@ -49,3 +49,115 @@ input[type="date"] {
     box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
     border: 2px solid #475569;
 }
+
+input::placeholder {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+#add-btn {
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  padding: 0 16px;
+  border-radius: 6px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.15);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+#add-btn:hover {
+  background-color: #4338ca;
+  box-shadow: 0 4px 16px rgba(99,102,241,0.25);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.actions button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(71,85,105,0.12);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+#filter-btn {
+  background-color: #475569;
+  color: white;
+}
+
+#filter-btn:hover {
+  background-color: #334155;
+  box-shadow: 0 4px 16px rgba(71,85,105,0.22);
+  transform: translateY(-2px) scale(1.05);
+}
+
+#delete-all {
+  background-color: #a78bfa;
+  color: white;
+}
+
+#delete-all:hover {
+  background-color: #7c3aed;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.22);
+  transform: translateY(-2px) scale(1.05);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #0f172a;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(30,41,59,0.18);
+  margin-top: 10px;
+  transition: box-shadow 0.2s;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px;
+  color: #cbd5e1;
+  transition: background 0.2s, color 0.2s;
+}
+
+th {
+  background-color: #1e293b;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+tr:nth-child(even) {
+  background-color: #1e293b;
+}
+
+tr:hover {
+  background-color: #6366f1;
+  color: #f8fafc;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* td input[type="checkbox"] {
+    transform: scale(1.2);
+    margin-right: 10px;
+}
+
+td input[type="checkbox"]:checked {
+    background-color: #6366f1;
+    border-color: #6366f1;
+}
+
+td input[type="checkbox"]:checked + label {
+    text-decoration: line-through;
+    color: #9ca3af;
+} */
+
