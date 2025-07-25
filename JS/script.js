@@ -1,3 +1,5 @@
+
+// Ambil elemen DOM
 const form = document.getElementById('todo-form');
 const todoInput = document.getElementById('todo-input');
 const dateInput = document.getElementById('todo-date');
@@ -6,28 +8,22 @@ const deleteAll = document.getElementById('delete-all');
 const filterType = document.getElementById('filter-type');
 const filterKeyword = document.getElementById('filter-keyword');
 
-let todos =[];
+let todos = [];
 
-form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    const task = input.value.trim();
-    const date = dateInput.value.trim();
+// Simpan todos ke localStorage
+function saveTodos() {
+    localStorage.setItem('todos', JSON.stringify(todos));
+}
 
-    if (!task || !date)return;
+// Ambil todos dari localStorage
+function loadTodos() {
+    const storedTodos = localStorage.getItem('todos');
+    if (storedTodos) {
+        todos = JSON.parse(storedTodos);
+    }
+}
 
-    todos.push({ task, date, status: 'pending' });
-    input.value = '';
-    dateInput.value = '';
-    renderTable();
-    saveTodos();
-});
-
-deleteAll.addEventListener('click', function () {
-    todos = [];
-    renderTable();
-    saveTodos();
-});
-
+// Render tabel todo
 function renderTable() {
     table.innerHTML = '';
     let filteredTodos = todos;
@@ -51,6 +47,7 @@ function renderTable() {
         table.appendChild(row);
         return;
     }
+
     const headerRow = document.createElement('tr');
     headerRow.innerHTML = `
         <th>No</th>
@@ -60,6 +57,7 @@ function renderTable() {
         <th>Actions</th>
     `;
     table.appendChild(headerRow);
+
     let no = 1;
     filteredTodos.forEach((todo, index) => {
         const row = document.createElement('tr');
@@ -75,22 +73,67 @@ function renderTable() {
         `;
         table.appendChild(row);
     });
-}       
-window.markDone = function(index) {
-    todos[index].status = 'Completed';
-    filteredTodos = null; 
-    renderTable(); 
-};
+}
 
-window.removeTodo = function(index){
-    todos.splice(index, 1);
-    filteredTodos = null;
+// Mark todo as done
+function markDone(index) {
+    todos[index].status = 'Completed';
     renderTable();
     saveTodos();
-};
-renderTable ();
+}
 
+// Remove todo
+function removeTodo(index) {
+    todos.splice(index, 1);
+    renderTable();
+    saveTodos();
+}
+
+// Event listener untuk tombol di tabel (delete & toggle)
+table.addEventListener('click', (e) => {
+    if (e.target.classList.contains('delete-btn')) {
+        const index = e.target.getAttribute('data-index');
+        removeTodo(index);
+    } else if (e.target.classList.contains('toggle-btn')) {
+        const index = e.target.getAttribute('data-index');
+        if (todos[index].status === 'pending') {
+            markDone(index);
+        } else {
+            todos[index].status = 'pending';
+            renderTable();
+            saveTodos();
+        }
+    }
+});
+
+// Event listener untuk form submit
+form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const task = todoInput.value.trim();
+    const date = dateInput.value.trim();
+
+    if (!task || !date) return;
+
+    todos.push({ task, date, status: 'pending' });
+    todoInput.value = '';
+    dateInput.value = '';
+    renderTable();
+    saveTodos();
+});
+
+// Event listener untuk hapus semua
+deleteAll.addEventListener('click', function () {
+    todos = [];
+    renderTable();
+    saveTodos();
+});
+
+// Event listener filter
 if (filterType && filterKeyword) {
     filterType.addEventListener('change', renderTable);
     filterKeyword.addEventListener('input', renderTable);
-};
+}
+
+// Inisialisasi
+loadTodos();
+renderTable();
