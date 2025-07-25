@@ -1,62 +1,59 @@
-*{
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #0f172a;
-    color: #f8fafc;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+  margin: 0;
+  background-color: #0f172a;
+  color: #f8fafc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 .container {
-    width: 90%;
-    max-width: 600px;
-    background-color: #1e293b;
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #1e293b;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 
 h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #e2e8f0;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #cbd5e1;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 15px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 input[type="text"],
 input[type="date"] {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    background-color: #334155;
-    color: #f1f5f9;
-    transition: border-color 0.3s ease;
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
-    border: 2px solid #475569;
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #334155;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+  border: 2px solid #475569;
+  transition: border 0.2s, box-shadow 0.2s;
 }
 
 input::placeholder {
-  color: #94a3b8;
+  color: #eaecf0;
   font-style: italic;
 }
 
 #add-btn {
-  background-color: #6366f1;
+  background-color: #4c4fee;
   color: white;
   border: none;
   padding: 0 16px;
@@ -90,23 +87,23 @@ input::placeholder {
 }
 
 #filter-btn {
-  background-color: #475569;
+  background-color: #4c4fee;
   color: white;
 }
 
 #filter-btn:hover {
-  background-color: #334155;
+  background-color: #f6a016;
   box-shadow: 0 4px 16px rgba(71,85,105,0.22);
   transform: translateY(-2px) scale(1.05);
 }
 
 #delete-all {
-  background-color: #a78bfa;
+  background-color: #4c4fee;
   color: white;
 }
 
 #delete-all:hover {
-  background-color: #7c3aed;
+  background-color: #f80e0e;
   box-shadow: 0 4px 16px rgba(167,139,250,0.22);
   transform: translateY(-2px) scale(1.05);
 }
@@ -116,7 +113,7 @@ table {
   border-collapse: collapse;
   background-color: #0f172a;
   border-radius: 6px;
-  overflow: hidden;
+  overflow: auto;
   box-shadow: 0 2px 12px rgba(30,41,59,0.18);
   margin-top: 10px;
   transition: box-shadow 0.2s;
@@ -146,18 +143,67 @@ tr:hover {
   transition: background 0.2s, color 0.2s;
 }
 
-/* td input[type="checkbox"] {
-    transform: scale(1.2);
-    margin-right: 10px;
+td button.done {
+  background-color: #0bdc12;
+  color: rgb(250, 250, 250);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(66,211,6,0.15);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 
-td input[type="checkbox"]:checked {
-    background-color: #6366f1;
-    border-color: #6366f1;
+td button.done:hover {
+  background-color: #42d906;
+  box-shadow: 0 4px 16px rgba(245,158,11,0.25);
+  transform: translateY(-2px) scale(1.05);
 }
 
-td input[type="checkbox"]:checked + label {
-    text-decoration: line-through;
-    color: #9ca3af;
-} */
+td button.delete {
+  background-color: #f40b0b;
+  color: rgb(250, 250, 250);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(239,68,68,0.15);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s; 
+}
 
+td button.delete:hover {
+  background-color: #ec0d0d;
+  box-shadow: 0 4px 16px rgba(239,68,68,0.25);
+  transform: translateY(-2px) scale(1.05);
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+
+  form {
+    flex-direction: column;
+  }
+
+  input[type="text"],
+  input[type="date"] {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  #add-btn {
+    width: 100%;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+}
