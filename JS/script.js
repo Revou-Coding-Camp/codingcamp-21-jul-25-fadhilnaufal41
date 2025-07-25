@@ -1,126 +1,95 @@
-const form = document.getElementById('todo-form');
-const input = document.getElementById('todo-input');
-const dateInput = document.getElementById('todo-date');
-const table = document.getElementById('todo-table');
-const deleteAll = document.getElementById('delete-all');
-const filterWrapper = document.createElement('div');
-filterWrapper.className = 'filter-wrapper';
+document.addEventListener("DOMContentLoaded", () => {
+  const todoInput = document.getElementById("todo-input");
+  const dateInput = document.getElementById("date-input");
+  const todoList = document.getElementById("todo-list");
+  const filterInput = document.getElementById("filter-input");
+  const statusFilter = document.getElementById("status-filter");
+  const addBtn = document.getElementById("add-btn");
+  const deleteAllBtn = document.getElementById("delete-all-btn");
 
-const filterSelect = document.createElement('select');
-filterSelect.id = 'filter-select';
-filterSelect.className = 'filter-select';
-filterSelect.innerHTML = `
-  <option value="task">Task</option>
-  <option value="date">Date</option>
-  <option value="status">Status</option>
-`;
+  let tasks = [];
 
-const filterInput = document.createElement('input');
-filterInput.type = 'text';
-filterInput.placeholder = 'Cari berdasarkan...';
-filterInput.id = 'filter-input';
-
-const filterBtn = document.createElement('button');
-filterBtn.textContent = 'Filter';
-filterBtn.id = 'filter-btn';
-
-filterWrapper.appendChild(filterSelect);
-filterWrapper.appendChild(filterInput);
-filterWrapper.appendChild(filterBtn);
-
-const container = document.querySelector('.container');
-if (container) {
-  container.insertBefore(filterWrapper, table);
+function checkEmptyState() {
+  if (todoList.children.length === 0) {
+    const emptyRow = document.createElement("tr");
+    emptyRow.innerHTML = `<td colspan="4" class="no-task">Tidak ada daftar tugas</td>`;
+    todoList.appendChild(emptyRow);
+  }
 }
+  addBtn.onclick = () => {
+    const task = todoInput.value.trim();
+    const date = dateInput.value;
+    if (!task || !date) {
+      alert("Silahkan masukan tugas dan waktunya");
+      return;
+    }
+    tasks.push({ text: task, date: date, completed: false });
+    todoInput.value = "";
+    dateInput.value = "";
+    renderTasks();
+  };
 
-let todos = [];
-let filteredTodos = null;
+  deleteAllBtn.onclick = () => {
+    tasks = [];
+    renderTasks();
+  };
 
-form.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const task = input.value.trim();
-  const date = dateInput.value;
-  if (!task || !date) return;
-  todos.push({ task, date, status: 'Pending' });
-  input.value = '';
-  dateInput.value = '';
-  filteredTodos = null;
-  renderTable();
-});
+  filterInput.addEventListener("input", renderTasks);
+  statusFilter.addEventListener("change", renderTasks);
 
-deleteAll.addEventListener('click', () => {
-  todos = [];
-  filteredTodos = null;
-  renderTable();
-});
-
-filterBtn.addEventListener('click', function() {
-  const keyword = filterInput.value.trim().toLowerCase();
-  const filterBy = filterSelect.value;
-  if (!keyword) {
-    filteredTodos = null;
-    renderTable();
-    return;
+  function renderTasks() {
+    todoList.innerHTML = "";
+    const keyword = filterInput.value.toLowerCase();
+    const status = statusFilter.value;
+    const todayStr = new Date().toISOString().split("T")[0];
+    let found = false;
+    tasks.forEach((task, index) => {
+      const matchesKeyword = task.text.toLowerCase().includes(keyword);
+      let matchesStatus = false;
+      switch (status) {
+        case "all":
+          matchesStatus = true;
+          break;
+        case "pending":
+          matchesStatus = !task.completed;
+          break;
+        case "completed":
+          matchesStatus = task.completed;
+          break;
+        case "today":
+          matchesStatus = task.date === todayStr;
+          break;
+      }
+      if (matchesKeyword && matchesStatus) {
+        found = true;
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${task.text}</td>
+          <td>${task.date}</td>
+          <td>${task.completed ? 'Tugas selesai' : 'Menunggu diselesaikan'}</td>
+          <td>
+            <button class="done" onclick="window.toggleDone(${index})">Done</button>
+            <button class="delete" onclick="window.deleteTask(${index})">Delete</button>
+          </td>
+        `;
+        todoList.appendChild(row);
+      }
+    });
+    if (!found) {
+      const row = document.createElement("tr");
+      row.innerHTML = '<td colspan="4" class="no-task">Tidak ada daftar tugas</td>';
+      todoList.appendChild(row);
+    }
   }
-  if (filterBy === 'task') {
-    filteredTodos = todos.filter(todo => todo.task.toLowerCase().includes(keyword));
-  } else if (filterBy === 'date') {
-    filteredTodos = todos.filter(todo => todo.date.includes(keyword));
-  } else if (filterBy === 'status') {
-    filteredTodos = todos.filter(todo => todo.status.toLowerCase().includes(keyword));
-  } else {
-    filteredTodos = null;
-  }
-  renderTable();
+
+  window.toggleDone = function(index) {
+    tasks[index].completed = true;
+    renderTasks();
+  };
+  window.deleteTask = function(index) {
+    tasks.splice(index, 1);
+    renderTasks();
+  };
+
+  renderTasks();
 });
-
-filterInput.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') filterBtn.click();
-});
-
-function renderTable() {
-  table.innerHTML = `
-    <tr>
-      <th>Task</th>
-      <th>Date</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-  `;
-  const data = filteredTodos !== null ? filteredTodos : todos;
-  if (data.length === 0) {
-    const row = document.createElement('tr');
-    row.innerHTML = '<td colspan="4" style="text-align:center;">Tidak ada daftar tugas</td>';
-    table.appendChild(row);
-    return;
-  }
-  data.forEach((todo, index) => {
-    const realIndex = filteredTodos !== null ? todos.findIndex(t => t === todo) : index;
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${todo.task}</td>
-      <td>${todo.date}</td>
-      <td>${todo.status}</td>
-      <td>
-        <button class="done" onclick="markDone(${realIndex})">Done</button>
-        <button class="delete" onclick="removeTodo(${realIndex})">Delete</button>
-      </td>
-    `;
-    table.appendChild(row);
-  });
-}
-
-window.markDone = function(index) {
-  todos[index].status = 'Completed';
-  filteredTodos = null;
-  renderTable();
-};
-
-window.removeTodo = function(index) {
-  todos.splice(index, 1);
-  filteredTodos = null;
-  renderTable();
-};
-
-renderTable();
-

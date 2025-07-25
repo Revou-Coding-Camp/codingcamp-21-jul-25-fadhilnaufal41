@@ -1,52 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To Do List</title>
-    <link rel="stylesheet" href="CSS/style.css">
+  <meta charset="UTF-8">
+  <title>Mini Project</title>
+  <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>To Do List</h1>
-        <form id="todo-form">
-            <input type="text" id="todo-input" placeholder="Tambahkan tugas . . ." required />
-            <input type="date" id="todo-date" required />
-            <button type="submit" id="add-btn">+</button>
-        </form>
-        
-        <div class="actions">
-            <button id="filter-btn">FILTER</button>
-            <button id="deletee-all">DELETE ALL</button>
-        </div>
-        <select id="filter-type">
-            <option value="all">Semua</option>
-            <option value="task">Task</option>
-            <option value="date">Tanggal</option>
-            <option value="status">Status</option>
+  <div class="todo-container">
+    <h1>To-Do List</h1>
+    <div class="input-group">
+      <input type="text" id="todo-input" placeholder="Tambahkan tugas...">
+      <input type="date" id="date-input">
+      <button id="add-btn">+</button>
+    </div>
+
+    <div class="actions" style="flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <select id="status-filter" style="padding:8px;border-radius:6px;border:2px solid #475569;background:#334155;color:#f1f5f9;font-size:16px;">
+          <option value="all">All</option>
+          <option value="pending">Pending</option>
+          <option value="completed">Completed</option>
+          <option value="today">Today</option>
         </select>
-        <input type="text" id="filter-keyword" placeholder="Cari berdasarkan...">
+        <input type="text" id="filter-input" placeholder="Cari tugas..." style="padding:8px;border-radius:6px;border:2px solid #475569;background:#334155;color:#ffffff;font-size:16px;min-width:120px;">
+      </div>
+      <button id="delete-all-btn">Delete All</button>
+    </div>
 
-        <table id="todo-table" class="todo-table">
-            <thead>
-                <tr>
-                    <th>TASK</th>
-                    <th>DUE DATE</th>
-                    <th>STATUS</th>
-                    <th>ACTIONS</th>
-                </tr>
-            </thead>
-            <!-- <tbody id="todo-table">
-                <tr><td colspan="5" 
-                    style="text-align: center;">Tidak ada tugas</td></tr>
-            </tbody> -->
-        </table>
+    <table class="todo-table">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Due Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="todo-list">
+        <tr><td colspan="4" class="no-task">Tidak ada daftar tugas</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-        <!-- <div class="footer">
-            <p>Created by Fadhil Naufal</p>
-        </div> -->
-
-    <script src="JS/script.js"></script>
-    
+  <script src="JS/script.js"></script>
 </body>
 </html>

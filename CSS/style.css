@@ -1,209 +1,144 @@
-* {
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
-}
-
 body {
   margin: 0;
+  padding: 0;
   background-color: #0f172a;
-  color: #f8fafc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  font-family:Arial, Helvetica, sans-serif , sans-serif;
+  color: #f1f5f9;
 }
 
-.container {
+.todo-container {
   background-color: #1e293b;
-  padding: 30px;
-  border-radius: 10px;
   width: 90%;
-  max-width: 600px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  max-width: 700px;
+  margin: 60px auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #334155;
 }
 
 h1 {
   text-align: center;
+  color: #ffffff;
   margin-bottom: 20px;
-  color: #cbd5e1;
 }
 
-form {
+.input-group {
   display: flex;
   gap: 10px;
   margin-bottom: 15px;
 }
 
-input[type="text"],
-input[type="date"] {
-  flex: 1;
+.input-group input {
   padding: 10px;
   border: none;
   border-radius: 6px;
+  flex: 1;
   background-color: #334155;
-  color: #ffffff;
-  box-shadow: 0 2px 8px rgba(99,102,241,0.08);
-  border: 2px solid #475569;
-  transition: border 0.2s, box-shadow 0.2s;
+  color: #f1f5f9;
 }
 
-input::placeholder {
-  color: #eaecf0;
-  font-style: italic;
-}
-
-#add-btn {
-  background-color: #4c4fee;
+.input-group button {
+  padding: 10px 15px;
+  background-color: #6366f1;
   color: white;
-  border: none;
-  padding: 0 16px;
-  border-radius: 6px;
   font-size: 20px;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(99,102,241,0.15);
-  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 
-#add-btn:hover {
-  background-color: #4338ca;
-  box-shadow: 0 4px 16px rgba(99,102,241,0.25);
-  transform: translateY(-2px) scale(1.05);
+.input-group button:hover {
+  background-color: #4f46e5;
+  transform: translateY(-2px);
 }
 
 .actions {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .actions button {
-  padding: 10px 15px;
+  padding: 8px 15px;
+  background-color: #31517e;
   border: none;
   border-radius: 6px;
+  color: white;
   cursor: pointer;
-  font-weight: bold;
-  box-shadow: 0 2px 8px rgba(71,85,105,0.12);
-  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.actions button#delete-all-btn {
+  background-color: #df1010;
 }
 
-#filter-btn {
-  background-color: #4c4fee;
-  color: white;
+.actions button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
 }
-
-#filter-btn:hover {
-  background-color: #f6a016;
-  box-shadow: 0 4px 16px rgba(71,85,105,0.22);
-  transform: translateY(-2px) scale(1.05);
-}
-
-#delete-all {
-  background-color: #4c4fee;
-  color: white;
-}
-
-#delete-all:hover {
-  background-color: #f80e0e;
-  box-shadow: 0 4px 16px rgba(167,139,250,0.22);
-  transform: translateY(-2px) scale(1.05);
-}
-
-table {
+.todo-table {
   width: 100%;
   border-collapse: collapse;
   background-color: #0f172a;
-  border-radius: 6px;
+  border-radius: 8px;
   overflow: auto;
-  box-shadow: 0 2px 12px rgba(30,41,59,0.18);
-  margin-top: 10px;
-  transition: box-shadow 0.2s;
+  box-shadow: 0 0 10px #000000;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  table-layout: fixed;
+  color: #fdfdfd;
+  font-size: 16px;
+  box-sizing:content-box;
+  max-width: 400%;
+  table-layout: fixed;
 }
-
-th, td {
-  text-align: left;
+.todo-table th {
   padding: 12px;
-  color: #cbd5e1;
-  transition: background 0.2s, color 0.2s;
-}
-
-th {
+  text-align: center;
   background-color: #1e293b;
-  font-weight: bold;
-  letter-spacing: 1px;
+  color: #ffffff;
+}
+.todo-table td {
+  padding: 12px;
+  text-align: center;
+  background-color: #0f172a;
+  border-top: 1px solid #1e293b;
+  color: #ffffff;
+}
+.todo-table .no-task {
+  text-align: center;
+  color: #a6abb4;
 }
 
-tr:nth-child(even) {
-  background-color: #1e293b;
-}
-
-tr:hover {
-  background-color: #6366f1;
-  color: #f8fafc;
+.todo-table input[type="checkbox"] {
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
 }
 
-td button.done {
-  background-color: #0bdc12;
-  color: rgb(250, 250, 250);
+.done {
+  padding: 5px 12px;
+  background-color: #22c55e;
+  color: #fff;
   border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
-  box-shadow: 0 2px 8px rgba(66,211,6,0.15);
-  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  margin-right: 5px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.done:hover {
+  background-color: #16a34a;
+  transform: translateY(-2px);
 }
 
-td button.done:hover {
-  background-color: #42d906;
-  box-shadow: 0 4px 16px rgba(245,158,11,0.25);
-  transform: translateY(-2px) scale(1.05);
-}
-
-td button.delete {
-  background-color: #f40b0b;
-  color: rgb(250, 250, 250);
+.delete {
+  padding: 5px 12px;
+  background-color: #ef4444;
+  color: #fff;
   border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
-  box-shadow: 0 2px 8px rgba(239,68,68,0.15);
-  transition: background 0.2s, box-shadow 0.2s, transform 0.2s; 
+  font-weight: 500;
+  transition: background 0.2s;
 }
-
-td button.delete:hover {
-  background-color: #ec0d0d;
-  box-shadow: 0 4px 16px rgba(239,68,68,0.25);
-  transform: translateY(-2px) scale(1.05);
-}
-
-@media (max-width: 600px) {
-  .container {
-    padding: 20px;
-  }
-
-  form {
-    flex-direction: column;
-  }
-
-  input[type="text"],
-  input[type="date"] {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  #add-btn {
-    width: 100%;
-  }
-
-  .actions {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .actions button {
-    width: 100%;
-  }
+.delete:hover {
+  background-color: #b91c1c;
+  transform: translateY(-2px);
 }
